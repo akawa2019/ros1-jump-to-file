@@ -9,13 +9,40 @@
   "categories": [
     "Other"
   ],
-  "activationEvents": [],
+  "activationEvents": ["*"],
   "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "ros1-jump-to-file.helloWorld",
         "title": "Hello World"
+      }
+    ],
+    "configuration":[
+      {
+        "title": "ROS1 Jump To File",
+        "properties": {
+          "ros1JumpToFile.supportedExtensions":{
+            "type":"array",
+            "default":["launch", "xacro", "sdf", "world"],
+            "description": "File extensions that support ROS-style path Ctrl+Click navigation.",
+            "items": {"type":"string"}
+          },
+          "ros1JumpToFile.setupFile":{
+            "type": "string",
+            "default": "",
+            "description": "Absolute path to the ROS setup file (e.g., setup.bash) used to extract ROS_PACKAGE_PATH.",
+            "scope": "machine"
+          },
+          "ros1JumpToFile.packageOverrides": {
+            "type": "object",
+            "default": {},
+            "description": "Manual overrides for ROS package resolution. Format: { \"package_name\": \"/absolute/path/to/package\" }",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
       }
     ]
   },
