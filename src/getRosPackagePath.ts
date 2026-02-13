@@ -9,7 +9,7 @@ const execAsync = promisify(execFile);
 export async function getRosPackageFromShell(setupFile?: string|null): Promise<Record<string, string>> {
     const result: Record<string, string> = {};
     const cmd = setupFile && setupFile.length
-        ? `[ -f "${setupFile}" ] && source "${setupFile}"; rospack list`
+        ? `source "${setupFile}"; rospack list`
         : "rospack list";
     let rosPackagePath: Array<string>;
     try{

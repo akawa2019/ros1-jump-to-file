@@ -82,7 +82,7 @@ export class ROSPathClickHandler{
     }
 
     public async reloadCache(){
-        const setupFile = getSetupFile();
+        const setupFile = await getSetupFile();
         const pairs = await getRosPackageFromShell(setupFile);
         const pkgs = Object.keys(pairs).length;
         if(pkgs){
