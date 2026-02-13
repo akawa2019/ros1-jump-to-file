@@ -89,7 +89,7 @@ export class ROSPathClickHandler{
             await this.cacheManager.writeAutoCache(pairs);
             vscode.window.showInformationMessage(`Successfully load ${pkgs} packages from ${setupFile}`);
         }else{
-            vscode.window.showInformationMessage(`Cannot load packages from ${setupFile}`);
+            vscode.window.showWarningMessage(`Cannot load packages from ${setupFile}`);
         }
         this.registerClickHandler();
     }
