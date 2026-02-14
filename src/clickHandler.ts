@@ -3,20 +3,10 @@ import * as path from 'path';
 import {CacheManager} from './cacheManager';
 import {getRosPackageFromShell} from "./getRosPackagePath";
 import { getSetupFile, getSupportedExtensions } from "./getConfiguration";
-
-class ROSDocumentLink extends vscode.DocumentLink {
-    constructor(
-        range: vscode.Range,
-        public ros_pack: string,
-        public ros_relative: string
-    ) {
-        super(range);
-    }
-}
+import { ROSDocumentLink, matchRosLink } from "./linkMatch";
 
 
 export class ROSPathClickHandler{
-    private static readonly ROS_PATH_REGEX = /\$\(\s*find\s+([a-zA-Z0-9_]+)\s*\)\/([^\s"'<>]+)/g;
 
     private cacheManager: CacheManager;
     private registration: vscode.Disposable | undefined;
@@ -27,16 +17,7 @@ export class ROSPathClickHandler{
             const links: vscode.DocumentLink[] = [];
             for(let lineNumber=0; lineNumber<document.lineCount; ++lineNumber){
                 const line = document.lineAt(lineNumber).text;
-                ROSPathClickHandler.ROS_PATH_REGEX.lastIndex = 0;
-                let match: RegExpExecArray | null;
-                while ((match = ROSPathClickHandler.ROS_PATH_REGEX.exec(line)) !== null){
-                    const start = match.index;
-                    const range = new vscode.Range(
-                        new vscode.Position(lineNumber, start),
-                        new vscode.Position(lineNumber, start + match[0].length)
-                    );
-                    links.push(new ROSDocumentLink(range, match[1], match[2]));
-                }
+                links.push(...matchRosLink(lineNumber, line));
             }
             return links;
         },

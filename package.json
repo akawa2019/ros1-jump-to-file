@@ -2,7 +2,7 @@
   "name": "ros1-jump-to-file",
   "displayName": "ros1-jump-to-file",
   "description": "add jump from $(find xxx) to actual file with current shell's environment",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "engines": {
     "vscode": "^1.80.0"
   },
